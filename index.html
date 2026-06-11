@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VACYCO — Diagnóstico Estratégico</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+--black:#050505;
+--petrol:#0D1B1E;
+--green:#00A67E;
+--white:#F5F5F5;
+--gray:#BDBDBD;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
+}
+
+body{
+background:var(--black);
+font-family:'Inter',sans-serif;
+color:var(--white);
+overflow-x:hidden;
+}
+
+.hero{
+min-height:100vh;
+padding:20px 18px 80px;
+background:
+radial-gradient(circle at top left, rgba(0,166,126,.12), transparent 35%),
+radial-gradient(circle at bottom right, rgba(0,166,126,.08), transparent 25%);
+}
+
+.badge{
+display:inline-block;
+padding:10px 16px;
+border-radius:999px;
+border:1px solid rgba(255,255,255,.08);
+background:rgba(255,255,255,.03);
+font-size:.72rem;
+letter-spacing:2px;
+margin-bottom:24px;
+}
+
+h1{
+font-family:'Anton',sans-serif;
+font-size:clamp(3rem,16vw,6rem);
+line-height:.92;
+margin-bottom:18px;
+}
+
+.highlight{
+color:var(--green);
+}
+
+.subtitle{
+color:var(--gray);
+line-height:1.7;
+margin-bottom:28px;
+}
+
+.visual{
+height:75vh;
+max-height:820px;
+border-radius:28px;
+overflow:hidden;
+margin-bottom:28px;
+position:relative;
+background:
+linear-gradient(180deg, rgba(0,0,0,.2), rgba(0,0,0,.8)),
+url('https://images.unsplash.com/photo-1511818966892-d7d671e672a2?q=80&w=1600&auto=format&fit=crop') center/cover;
+border:1px solid rgba(255,255,255,.08);
+}
+
+.overlay{
+position:absolute;
+bottom:105px;
+left:24px;
+right:24px;
+}
+
+.overlay h2{
+font-family:'Anton',sans-serif;
+font-size:2.2rem;
+line-height:.92;
+margin-bottom:0;
+}
+
+.overlay p{
+font-size:.86rem;
+line-height:1.6;
+max-width:250px;
+margin-top:8px;
+}
+
+.card{
+background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+border:1px solid rgba(255,255,255,.08);
+padding:24px;
+border-radius:28px;
+backdrop-filter:blur(14px);
+}
+
+.card h3{
+font-family:'Anton',sans-serif;
+font-size:1.8rem;
+margin-bottom:20px;
+}
+
+.form-group{
+margin-bottom:16px;
+}
+
+label{
+display:block;
+margin-bottom:8px;
+font-size:.78rem;
+letter-spacing:1px;
+color:#B8B8B8;
+text-transform:uppercase;
+}
+
+input,select{
+width:100%;
+padding:17px;
+border-radius:16px;
+border:1px solid rgba(255,255,255,.06);
+background:#0D1B1E;
+color:white;
+font-size:1rem;
+}
+
+button{
+width:100%;
+padding:18px;
+border:none;
+border-radius:18px;
+background:var(--green);
+color:white;
+font-weight:700;
+font-size:1rem;
+margin-top:10px;
+cursor:pointer;
+transition:.2s ease;
+}
+
+button:hover{
+transform:translateY(-2px);
+}
+
+.loader{
+display:none;
+margin-top:18px;
+padding:18px;
+border-radius:18px;
+background:rgba(255,255,255,.03);
+line-height:1.9;
+color:#D0D0D0;
+}
+
+.result{
+display:none;
+margin-top:20px;
+padding:24px;
+border-radius:24px;
+background:rgba(0,166,126,.08);
+border:1px solid rgba(0,166,126,.18);
+}
+
+.result h2{
+font-family:'Anton',sans-serif;
+font-size:2rem;
+line-height:1;
+margin-bottom:14px;
+}
+
+.result p{
+line-height:1.8;
+}
+
+.metrics{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin:20px 0;
+}
+
+.metric{
+padding:16px;
+border-radius:18px;
+background:rgba(255,255,255,.03);
+border:1px solid rgba(255,255,255,.05);
+}
+
+.metric span{
+display:block;
+font-size:.72rem;
+margin-bottom:8px;
+color:#A0A0A0;
+}
+
+.metric strong{
+font-size:1.1rem;
+}
+
+.strategy{
+margin-top:22px;
+padding:20px;
+border-radius:18px;
+background:rgba(255,255,255,.03);
+border:1px solid rgba(255,255,255,.05);
+}
+
+.strategy h4{
+font-family:'Anton',sans-serif;
+font-size:1.2rem;
+margin-bottom:10px;
+letter-spacing:1px;
+}
+
+.cta{
+margin-top:20px;
+padding:18px;
+border-radius:18px;
+background:rgba(0,166,126,.12);
+border:1px solid rgba(0,166,126,.18);
+font-weight:600;
+line-height:1.6;
+}
+
+.contact{
+margin-top:20px;
+padding-top:16px;
+border-top:1px solid rgba(255,255,255,.08);
+line-height:1.9;
+font-size:.92rem;
+}
+
+a{
+color:var(--green);
+text-decoration:none;
+}
+
+.footer{
+margin-top:40px;
+font-size:.8rem;
+text-align:center;
+color:#777;
+}
+
+@media(min-width:1024px){
+
+.hero{
+padding:60px;
+}
+
+.layout{
+display:grid;
+grid-template-columns:1fr 520px;
+gap:60px;
+max-width:1400px;
+margin:auto;
+align-items:center;
+}
+
+.visual{
+height:820px;
+}
+
+.overlay{
+bottom:120px;
+left:40px;
+}
+
+.overlay h2{
+font-size:4rem;
+}
+
+.overlay p{
+max-width:420px;
+font-size:1rem;
+}
+
+h1{
+font-size:7rem;
+max-width:780px;
+}
+
+.subtitle{
+max-width:600px;
+font-size:1.1rem;
+}
+
+.card{
+position:sticky;
+top:40px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<section class="hero">
+
+<div class="layout">
+
+<div>
+
+<div class="badge">
+VACYCO — ARQUITECTURA ESTRATÉGICA
+</div>
+
+<h1>
+TU TERRENO<br>
+PODRÍA VALER<br>
+<span class="highlight">MUCHO MÁS</span><br>
+DE LO QUE CREES.
+</h1>
+
+<p class="subtitle">
+Transformamos arquitectura en activos productivos mediante valorización estratégica, monetización inteligente y expansión acelerada.
+</p>
+
+<div class="visual">
+
+<div class="overlay">
+
+<h2>
+ACTIVOS<br>
+PRODUCTIVOS
+</h2>
+
+<p>
+Arquitectura modular premium diseñada para generar libertad financiera y valorización estratégica.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>INICIAR DIAGNÓSTICO</h3>
+
+<div class="form-group">
+<label>Ubicación</label>
+<input id="ubicacion" placeholder="Ej: Barichara, Colombia">
+</div>
+
+<div class="form-group">
+<label>Área del lote</label>
+<input id="area" type="number" placeholder="Ej: 1200">
+</div>
+
+<div class="form-group">
+<label>Tipo de entorno</label>
+<select id="entorno">
+<option>Turístico</option>
+<option>Costero</option>
+<option>Montaña</option>
+<option>Rural</option>
+<option>Industrial</option>
+<option>Urbano</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Objetivo</label>
+<select id="objetivo">
+<option>Valorización</option>
+<option>Flujo de caja</option>
+<option>Renta corta</option>
+<option>Vivienda experiencial</option>
+<option>Expansión industrial</option>
+</select>
+</div>
+
+<button onclick="diagnostico()">
+GENERAR DIAGNÓSTICO
+</button>
+
+<div class="loader" id="loader">
+Analizando potencial arquitectónico...<br>
+Calculando valorización estratégica...<br>
+Detectando oportunidades experienciales...
+</div>
+
+<div class="result" id="resultado">
+
+<h2 id="perfilTitulo">
+ACTIVO EXPERIENCIAL
+</h2>
+
+<p id="mensaje"></p>
+
+<div class="metrics">
+
+<div class="metric">
+<span>ROI POTENCIAL</span>
+<strong id="roi">18% — 27%</strong>
+</div>
+
+<div class="metric">
+<span>RETORNO</span>
+<strong id="retorno">3.2 años</strong>
+</div>
+
+<div class="metric">
+<span>ESCALABILIDAD</span>
+<strong id="escala">ALTA</strong>
+</div>
+
+<div class="metric">
+<span>RIESGO</span>
+<strong id="riesgo">MEDIO / BAJO</strong>
+</div>
+
+</div>
+
+<div class="strategy">
+
+<h4>RECOMENDACIÓN VACYCO</h4>
+
+<p id="recomendacion"></p>
+
+</div>
+
+<div class="cta" id="cta">
+Agenda una sesión estratégica para validar el potencial del terreno.
+</div>
+
+<div class="contact">
+
+<strong>CONTACTO</strong><br>
+
+📩 gerencia.vacyco@gmail.com<br>
+📱 +57 3146969349<br>
+
+Instagram:
+<a href="https://www.instagram.com/vacyco?igsh=NWZ1OWVveWVmY3Ez" target="_blank">@vacyco</a><br>
+
+TikTok:
+<a href="https://www.tiktok.com/@vacyco?_r=1&_t=ZS-974Z0Gqigrg" target="_blank">@vacyco</a>
+
+</div>
+
+</div>
+
+<div class="footer">
+VACYCO — Arquitectura Estratégica & Activos Productivos
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<script>
+
+function diagnostico(){
+
+const loader=document.getElementById('loader');
+const result=document.getElementById('resultado');
+
+loader.style.display='block';
+result.style.display='none';
+
+setTimeout(()=>{
+
+loader.style.display='none';
+result.style.display='block';
+
+const entorno=document.getElementById('entorno').value;
+const objetivo=document.getElementById('objetivo').value;
+const area=parseInt(document.getElementById('area').value)||1000;
+
+let perfil='';
+let roi='';
+let retorno='';
+let mensaje='';
+let recomendacion='';
+let cta='';
+let escala='ALTA';
+let riesgo='MEDIO / BAJO';
+
+if(entorno==='Industrial'){
+
+perfil='INFRAESTRUCTURA PRODUCTIVA';
+
+roi='14% — 21%';
+retorno='4.8 años';
+
+mensaje='La ubicación presenta potencial estratégico para expansión acelerada de infraestructura orientada a eficiencia operativa y crecimiento modular.';
+
+recomendacion='Optimizar capacidad productiva mediante arquitectura industrial flexible capaz de crecer por fases sin interrumpir operaciones existentes.';
+
+cta='Solicita un diagnóstico de expansión acelerada para validar capacidad operativa y escalabilidad futura.';
+
+}
+
+else if(entorno==='Costero'){
+
+perfil='ACTIVO EXPERIENCIAL ESCALABLE';
+
+roi='24% — 38%';
+retorno='2.5 años';
+
+mensaje='El terreno presenta características ideales para desarrollar experiencias premium enfocadas en turismo de alta percepción y renta experiencial.';
+
+recomendacion='Desarrollar un sistema modular premium orientado a turismo experiencial para maximizar valorización territorial y flujo de caja recurrente.';
+
+cta='Agenda una sesión estratégica para validar el potencial turístico y experiencial del activo.';
+
+}
+
+else if(entorno==='Montaña'){
+
+perfil='REFUGIO EXPERIENCIAL';
+
+roi='20% — 31%';
+retorno='3.1 años';
+
+mensaje='El entorno favorece experiencias de privacidad, contemplación y arquitectura inmersiva de alto valor percibido.';
+
+recomendacion='Diseñar una experiencia arquitectónica enfocada en paisaje, desconexión y renta premium mediante ocupación de baja densidad.';
+
+cta='Descubre cómo transformar el terreno en un refugio experiencial de alta valorización.';
+
+}
+
+else if(objetivo==='Renta corta'){
+
+perfil='PATRIMONIO HÍBRIDO';
+
+roi='22% — 34%';
+retorno='2.8 años';
+
+mensaje='El activo presenta alto potencial para monetización mediante experiencias arquitectónicas premium y modelos de hospedaje flexible.';
+
+recomendacion='Combinar uso personal y renta corta mediante arquitectura adaptable diseñada para maximizar ocupación y flexibilidad operativa.';
+
+cta='Agenda una consultoría para estructurar una estrategia de renta experiencial escalable.';
+
+}
+
+else{
+
+perfil='RESERVA ESTRATÉGICA';
+
+roi='18% — 27%';
+retorno='3.4 años';
+
+mensaje='El terreno tiene potencial para convertirse en un activo productivo mediante valorización progresiva y desarrollo escalable.';
+
+recomendacion='Desarrollar el activo por etapas para consolidar valorización territorial mientras se reduce exposición operativa y financiera.';
+
+cta='Solicita una evaluación estratégica para detectar oportunidades de valorización arquitectónica.';
+
+}
+
+if(area>5000){
+
+perfil='ACTIVO TERRITORIAL DE ALTA ESCALA';
+
+roi='29% — 42%';
+retorno='2.1 años';
+
+mensaje='La dimensión del terreno permite desarrollar un sistema escalable de alto potencial orientado a monetización experiencial y valorización acelerada.';
+
+recomendacion='Implementar un masterplan modular por fases capaz de combinar flujo de caja, expansión futura y valorización territorial sostenida.';
+
+cta='Agenda una sesión privada para estructurar una estrategia integral de desarrollo territorial.';
+
+escala='MUY ALTA';
+riesgo='MEDIO';
+
+}
+
+document.getElementById('perfilTitulo').innerHTML=perfil;
+document.getElementById('roi').innerText=roi;
+document.getElementById('retorno').innerText=retorno;
+document.getElementById('mensaje').innerText=mensaje;
+document.getElementById('recomendacion').innerText=recomendacion;
+document.getElementById('cta').innerText=cta;
+document.getElementById('escala').innerText=escala;
+document.getElementById('riesgo').innerText=riesgo;
+
+result.scrollIntoView({behavior:'smooth'});
+
+},1800);
+
+}
+
+</script>
+
+</body>
+</html>
